@@ -152,12 +152,9 @@ model = 'model.joblib'
 joblib.dump(pipeline, model)
 
 # Upload the model to GCS
-client = storage.Client.from_service_account_json(json_credentials_path='/home/cmickle/Downloads/mykey.json')
 
-bucket = client.get_bucket('scikit-291113-aiplatform')
-CHUNK_SIZE = 10485760
 blob = bucket.blob('{}/{}'.format(
     datetime.datetime.now().strftime('census_%Y%m%d_%H%M%S'),
-    model), chunk_size=CHUNK_SIZE)
+    model))
 blob.upload_from_filename(model)
 # [END export-to-gcs]
